@@ -9,7 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE','malJS_django_proj')
 import django
 django.setup()
 
-from virusList.models import virusList
+from virusList.models import Virus
 
 
 def populate():
@@ -27,17 +27,22 @@ def populate():
 	'''
 
 	MAL_DIR = '/root/JS_repository/2015-11-14'
-	
+	print MAL_DIR
 	dirs=os.listdir(MAL_DIR)
 	#send malicious html found by MALTRIEVE to VIRUSTOTAL to scan
 	for f in dirs:
 		path=MAL_DIR
 		md5=f
+		print f
 		rp=get_report_dict(md5)
+		print rp
+		print "@@@@@@@"
+		print
 		add_virus(
-			MD5=md5,
-			size_KB=sizeOf(path),
-			VitusTotal_link=rp.permalink)
+			md5=md5,
+			size=sizeOf(path),
+			url=rp["permalink"]
+			)
 		break
 
 
@@ -50,7 +55,7 @@ def add_virus(md5,size,url):
 def sizeOf(PATH):
 	return (os.path.getsize(PATH)/1024.0)
 
-def get_report_dict(self,resource):
+def get_report_dict(resource):
 
     result_dict = {}
     APIKEY="659fd24c11e839f866f32b0dfa37887e91d6713439505e717541595252d3c47f"
@@ -61,6 +66,10 @@ def get_report_dict(self,resource):
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
     json = response.read()
-    print json
+    #print json
     response_dict = simplejson.loads(json)
     return response_dict;
+
+if __name__ == '__main__':
+	print "Starting VirusList population script..."
+	populate()
