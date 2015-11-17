@@ -35,20 +35,27 @@ def populate():
 		md5=f
 		print f
 		rp=get_report_dict(md5)
-		print rp
-		print "@@@@@@@"
-		print
+
+		#detection
+		detection="";
+		for i in rp["scan"]:
+			if i[detected]==true:
+				detection+=i+', '
+
+
 		add_virus(
 			md5=md5,
 			size=sizeOf(path),
-			url=rp["permalink"]
+			url=rp["permalink"],
+			detection=detection
 			)
 		break
 
 
-def add_virus(md5,size,url):
+def add_virus(md5,size,url,detection):
 	v=Virus.objects.get_or_create(MD5=md5,size_KB=size)[0]
 	v.VirusTotal_link=url
+	v.Detection=detection
 	v.save()
 	return v;
 
