@@ -1,6 +1,7 @@
 import simplejson
 import urllib
 import urllib2
+import json
 
 
 import os
@@ -33,18 +34,12 @@ def populate():
 	for f in dirs:
 		path=MAL_DIR
 		md5=f
-		
+		print f
 		rp=get_report_dict(md5)
 
 		#detection
-		detection="";
-		det=rp.get("scans",{})
-		for i in det:
-			if rp.get("scans",{}).get(i,{}).get("detected")== True:
-				detection+=i+', '
+		detection=rp.get("scans",{})
 
-
-		print f
 		add_virus(
 			md5=md5,
 			size=sizeOf(path),
@@ -75,8 +70,10 @@ def get_report_dict(resource):
     req = urllib2.Request(url, data)
     response = urllib2.urlopen(req)
     json = response.read()
+
     #print json
-    response_dict = simplejson.loads(json)
+    response_dict = simplejson.loads(json,"utf-8")
+    
     return response_dict;
 
 
