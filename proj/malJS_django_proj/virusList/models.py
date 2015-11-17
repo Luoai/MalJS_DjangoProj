@@ -5,7 +5,7 @@ from django.db import models
 class Virus(models.Model):
 	MD5 = models.CharField(max_length=128)
 	size_KB = models.DecimalField(max_digits=128,decimal_places=5,default=0)
-	url=models.URLField()
+	VirusTotal_link=models.URLField()
 	#detection = models.CharField(max_length=128)
 
 	def __unicode__(self):
