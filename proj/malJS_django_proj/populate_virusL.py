@@ -33,23 +33,25 @@ def populate():
 	for f in dirs:
 		path=MAL_DIR
 		md5=f
-		print f
+		
 		rp=get_report_dict(md5)
 
 		#detection
 		detection="";
-		for i in rp["scan"]:
-			if i[detected]==true:
+		det=rp.get("scans",{})
+		for i in det:
+			if rp.get("scans",{}).get(i,{}).get("detected")== True:
 				detection+=i+', '
 
 
+		print f
 		add_virus(
 			md5=md5,
 			size=sizeOf(path),
 			url=rp["permalink"],
 			detection=detection
 			)
-		break
+		
 
 
 def add_virus(md5,size,url,detection):
@@ -76,6 +78,7 @@ def get_report_dict(resource):
     #print json
     response_dict = simplejson.loads(json)
     return response_dict;
+
 
 if __name__ == '__main__':
 	print "Starting VirusList population script..."
