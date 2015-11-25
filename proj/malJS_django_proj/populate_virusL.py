@@ -38,15 +38,26 @@ def populate():
 		rp=get_report_dict(md5)
 
 		#detection
-		detection=rp.get("scans",{})
+		detection=rp["scans"]
+		print detection
+		det={}
+		for i in detection:
+			if i[0]==True:
+				det[i]=i[3];
+		fl=open("tmp_rp","w")
+		for i in det:
+			fl.write(i+": "+det[i]+"\n");
+
+
+
 
 		add_virus(
 			md5=md5,
 			size=sizeOf(path),
 			url=rp["permalink"],
-			detection=detection
+			detection=fl
 			)
-		
+		fl.close()
 
 
 def add_virus(md5,size,url,detection):
