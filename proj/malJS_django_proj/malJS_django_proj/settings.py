@@ -57,12 +57,12 @@ WSGI_APPLICATION = 'malJS_django_proj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-ALT_DIR='~/Home/MalJS_djangoProj/database'
+ALT_DIR='/root/git_repository/MalJS_djangoProj/database/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	#'NAME': os.path.join(ALT_DIR+'db.sqlite3'),
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+	    'NAME': os.path.join(ALT_DIR+'db.sqlite3'),
     }
 }
 
