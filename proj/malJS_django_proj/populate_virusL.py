@@ -2,6 +2,7 @@ import simplejson
 import urllib
 import urllib2
 import json
+import time
 
 
 import os
@@ -26,12 +27,12 @@ def populate():
 		mon='0'+mon;
 	dirName=str(now.year)+"-"+mon+"-"+day
 	'''
-
 	MAL_DIR = '/root/JS_repository/2015-11-14'
 	print MAL_DIR
 	dirs=os.listdir(MAL_DIR)
 	#send malicious html found by MALTRIEVE to VIRUSTOTAL to scan
 	for f in dirs:
+		time.sleep(15)
 		path=MAL_DIR
 		md5=f
 		print f
@@ -41,12 +42,15 @@ def populate():
 		detection=rp["scans"]
 		print detection
 		det={}
-		for i in detection:
-			if i[0]==True:
-				det[i]=i[3];
 		fl=open("tmp_rp","w")
-		for i in det:
-			fl.write(i+": "+det[i]+"\n");
+		for i in detection:
+			
+
+			if detection[i]['detected']==True:
+				fl.write(i);
+				fl.write(": "+str(detection[i]['result'])+"\n")
+		fl.write("-----end-------\n\n bye")
+		
 
 
 
@@ -58,6 +62,7 @@ def populate():
 			detection=fl
 			)
 		fl.close()
+		
 
 
 def add_virus(md5,size,url,detection):
